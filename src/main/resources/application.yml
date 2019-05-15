@@ -1,0 +1,18 @@
+
+spring:
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    username: root
+    password: 123456
+    url: jdbc:mysql://10.200.4.124/sell?characterEncoding=UTF8&useSSL=false
+  jackson:
+    default-property-inclusion: non_null
+mybatis:
+  mapper-locations: classpath:mapper/*.xml
+
+server:
+  servlet:
+    context-path: /sell
+  port: 8090
+
+

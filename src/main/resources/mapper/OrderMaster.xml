@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace = "com.imooc.sell_mybatis.DAO.OrderMasterDAO">
+    <resultMap id="OrderMaster" type="com.imooc.sell_mybatis.dataobject.OrderMaster">
+        <id column="order_id" jdbcType="VARCHAR" property="orderId"/>
+        <result column="buyer_name" jdbcType="VARCHAR" property="buyerName"/>
+        <result column="buyer_phone" jdbcType="VARCHAR" property="buyerPhone" />
+        <result column="buyer_address" jdbcType="VARCHAR" property="buyerAddress"/>
+        <result column="buyer_openid" jdbcType="VARCHAR" property="buyerOpenId"/>
+        <result column="order_amount" jdbcType="DECIMAL" property="orderAmount"/>
+        <result column="order_status" jdbcType="TINYINT" property="orderStatus"/>
+        <result column="pay_status" jdbcType="TINYINT" property="payStatus"/>
+        <result column="create_time" jdbcType="TIMESTAMP" property="createTime"/>
+        <result column="update_time" jdbcType="TIMESTAMP" property="updateTime"/>
+    </resultMap>
+
+    <select id = "findByBuyerOpenid" resultMap="OrderMaster">
+        select * from order_master where buyer_openid = #{buyerOpenid}
+    </select>
+
+    <insert id="save" parameterType="com.imooc.sell_mybatis.dataobject.OrderMaster">
+        insert into order_master(order_id, buyer_name, buyer_phone, buyer_address, buyer_openid,
+        order_amount)
+        values (#{orderId}, #{buyerName}, #{buyerPhone}, #{buyerAddress}, #{buyerOpenId},
+        #{orderAmount})
+    </insert>
+
+    <select id="findOne" resultMap="OrderMaster">
+        select * from order_master where order_id = #{orderId}
+    </select>
+
+    <select id="findAll" resultMap="OrderMaster" >
+        select * from order_master
+    </select>
+
+    <update id="updateStatus" parameterType="com.imooc.sell_mybatis.dto.OrderDTO" >
+        update order_master set order_status = #{orderStatus} where order_id = #{orderId} and order_status = 0;
+    </update>
+
+    <update id="updatePayStatus" parameterType="com.imooc.sell_mybatis.dto.OrderDTO" >
+        update order_master set pay_status = #{payStatus} where order_id = #{orderId} and pay_status = 0;
+    </update>
+
+</mapper>
+

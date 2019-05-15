@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace = "com.imooc.sell_mybatis.DAO.ProductCategoryDAO">
+    <resultMap id="productCategory" type="com.imooc.sell_mybatis.dataobject.ProductCategory">
+        <id column="category_id" jdbcType="INTEGER" property="categoryId"/>
+        <result column="category_name" jdbcType="VARCHAR" property="categoryName"/>
+        <result column="category_type" jdbcType="INTEGER" property="categoryType" />
+    </resultMap>
+
+    <select id = "findById" resultMap="productCategory">
+        select * from product_category where category_id = #{categoryId}
+    </select>
+
+    <insert id="save" parameterType="com.imooc.sell_mybatis.dataobject.ProductCategory">
+        insert into product_category(category_name, category_type)
+        values (#{categoryName}, #{categoryType})
+    </insert>
+
+    <select id="findByCategoryTypeIn" resultMap="productCategory" parameterType="java.util.List">
+        select * from product_category where category_type in
+        <foreach collection="categoryTypeList"
+                 item="categoryType" open="(" separator="," close=")" >
+            #{categoryType}
+        </foreach>
+
+    </select>
+
+    <select id="findAll" resultMap="productCategory" >
+        select * from product_category
+    </select>
+</mapper>

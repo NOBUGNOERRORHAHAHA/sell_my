@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace = "com.imooc.sell_mybatis.DAO.ProductInfoDAO">
+    <resultMap id="productInfo" type="com.imooc.sell_mybatis.dataobject.ProductInfo">
+        <id column="product_id" jdbcType="VARCHAR" property="productId"/>
+        <result column="product_name" jdbcType="VARCHAR" property="productName"/>
+        <result column="product_price" jdbcType="DECIMAL" property="productPrice" />
+        <result column="product_stock" jdbcType="INTEGER" property="productStock"/>
+        <result column="product_description" jdbcType="VARCHAR" property="productDescription" />
+        <result column="product_icon" jdbcType="VARCHAR" property="productIcon"/>
+        <result column="product_status" jdbcType="TINYINT" property="productStatus" />
+        <result column="category_type" jdbcType="INTEGER" property="categoryType" />
+    </resultMap>
+
+
+    <select id = "findByProductStatus" resultMap="productInfo" parameterType="Byte">
+        select * from product_info where  product_status = #{productStatus}
+    </select>
+
+    <insert id="save" parameterType="com.imooc.sell_mybatis.dataobject.ProductInfo">
+        insert into product_info(product_id,product_name,product_price, product_stock,
+          product_description, product_icon,product_status ,category_type   )
+        values (#{productId}, #{productName},#{productPrice}, #{productStock}, #{productDescription}, #{productIcon},#{productStatus}, #{categoryType} )
+    </insert>
+
+    <select id = "findOne" resultMap="productInfo">
+        select * from product_info where product_id = #{productId}
+    </select>
+
+
+    <update id="decreaseStock" parameterType="com.imooc.sell_mybatis.dto.CartDTO" >
+        update product_info set product_stock = product_stock - #{productQuantity} where product_id = #{productId}
+        and product_stock >= #{productQuantity}
+    </update>
+
+    <update id="increaseStock" parameterType="com.imooc.sell_mybatis.dto.CartDTO" >
+        update product_info set product_stock = product_stock +  #{productQuantity} where product_id = #{productId}
+    </update>
+
+    <select id="findAll" resultMap="productInfo" >
+        select * from product_info
+    </select>
+</mapper>
